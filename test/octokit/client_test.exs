@@ -39,7 +39,7 @@ defmodule Octokit.Client.Test do
   end
 
   test "executing an API call sets the last_response", %{client: client} do
-    with_mock HTTPoison, mock_get("user_lee_dohm") do
+    with_mock HTTPoison, mock_get("user_response_valid") do
       Client.user(client, "lee-dohm")
 
       last_response = Client.last_response(client)

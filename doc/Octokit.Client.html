@@ -1,0 +1,644 @@
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.11.4">
+    <title>Octokit.Client – Octokit v0.0.1</title>
+    <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
+    <script src="dist/sidebar_items.js"></script>
+  </head>
+  <body data-type="modules">
+
+    <div class="main">
+<button class="sidebar-toggle">
+  <i class="icon-menu"></i>
+</button>
+<section class="sidebar">
+  <button class="sidebar-toggle">
+    <i class="icon-menu"></i>
+  </button>
+
+  
+  <a href="api-reference.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        Octokit
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v0.0.1
+      </h2>
+    </div>
+    
+  </a>
+
+  <div class="sidebar-search">
+    <i class="icon-search"></i>
+    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+    
+
+    
+  </ul>
+
+  <ul id="full-list" class="sidebar-fullList"></ul>
+  <div class="sidebar-noResults"></div>
+</section>
+
+<section class="content">
+  <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Octokit v0.0.1</small>
+        Octokit.Client
+        
+        
+          <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L1" title="View Source" class="view-source" rel="help">
+            <i class="icon-code"></i>
+          </a>
+        
+      </h1>
+
+      
+        <section id="moduledoc" class="docstring">
+          <p>A client to retrieve information from the <a href="https://developer.github.com/v3/">GitHub API</a>.</p>
+<p>This client does minimal caching, only retaining the very last response from any call to the API.
+It also doesn’t do anything to ensure that you stay under your respective rate limit, though it
+does make the rate limit information available.</p>
+
+        </section>
+      
+
+      
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <i class="icon-link"></i>
+            </a>
+            Summary
+          </h1>
+          
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:creds/0">creds()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:issue_number/0">issue_number()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:rate_limit/0">rate_limit()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:rel_name/0">rel_name()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:repo/0">repo()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:request_opts/0">request_opts()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:user/0">user()</a>
+  </div>
+  
+</div>
+
+  </div>
+
+
+          
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#credentials/1">credentials(client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Gets the credentials used to create the client</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#issue/4">issue(client, repo, number, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Gets information on a single issue</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#last_response/1">last_response(client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Gets the last response object received from an API call</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list_issues/3">list_issues(client, repo, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Gets information on all of the issues in a repo</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#new/1">new(credentials \\ %{})</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Creates a new GitHub API client using the supplied credentials</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#rate_limit/1">rate_limit(client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Gets the rate limit information from the last response</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#rate_limit!/1">rate_limit!(client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Gets the rate limit informaiton from the API</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#rels/2">rels(client, name)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Gets the URL for the named relative link from the last response</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#repository/3">repository(client, repo, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Gets information on a single repository</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#user/3">user(client, user, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Gets information on a single user</p>
+</div>
+  
+</div>
+
+  </div>
+
+
+          
+
+          
+
+        </section>
+      
+
+      
+        <section id="types" class="types details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <i class="icon-link"></i>
+            </a>
+            Types
+          </h1>
+          <div class="types-list">
+            <div id="t:creds/0" class="type-detail">
+  <pre><code class="elixir"><a href="#t:creds/0">creds</a> :: %{}</code></pre>
+  
+</div>
+<div id="t:issue_number/0" class="type-detail">
+  <pre><code class="elixir"><a href="#t:issue_number/0">issue_number</a> :: pos_integer | <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
+  
+</div>
+<div id="t:rate_limit/0" class="type-detail">
+  <pre><code class="elixir"><a href="#t:rate_limit/0">rate_limit</a> :: %{limit: <a href="http://elixir-lang.org/docs/stable/elixir/Integer.html#t:t/0">Integer.t</a>, remaining: <a href="http://elixir-lang.org/docs/stable/elixir/Integer.html#t:t/0">Integer.t</a>, reset: <a href="http://elixir-lang.org/docs/stable/elixir/Integer.html#t:t/0">Integer.t</a>}</code></pre>
+  
+</div>
+<div id="t:rel_name/0" class="type-detail">
+  <pre><code class="elixir"><a href="#t:rel_name/0">rel_name</a> :: :first | :prev | :next | :last</code></pre>
+  
+</div>
+<div id="t:repo/0" class="type-detail">
+  <pre><code class="elixir"><a href="#t:repo/0">repo</a> ::
+  pos_integer |
+  <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a> |
+  <a href="Octokit.Repository.html#t:t/0">Octokit.Repository.t</a></code></pre>
+  
+</div>
+<div id="t:request_opts/0" class="type-detail">
+  <pre><code class="elixir"><a href="#t:request_opts/0">request_opts</a> :: <a href="http://elixir-lang.org/docs/stable/elixir/Keyword.html#t:t/0">Keyword.t</a></code></pre>
+  
+</div>
+<div id="t:t/0" class="type-detail">
+  <pre><code class="elixir"><a href="#t:t/0">t</a> :: pid</code></pre>
+  
+</div>
+<div id="t:user/0" class="type-detail">
+  <pre><code class="elixir"><a href="#t:user/0">user</a> :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a> | <a href="Octokit.User.html#t:t/0">Octokit.User.t</a></code></pre>
+  
+</div>
+
+          </div>
+        </section>
+      
+
+      
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <i class="icon-link"></i>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="credentials/1">
+  <div class="detail-header">
+    <a href="#credentials/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">credentials(client)</span>
+      
+      <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L106" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">credentials(<a href="#t:t/0">t</a>) :: <a href="#t:creds/0">creds</a></code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Gets the credentials used to create the client.</p>
+
+  </section>
+</div>
+<div class="detail" id="issue/4">
+  <div class="detail-header">
+    <a href="#issue/4" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">issue(client, repo, number, opts \\ [])</span>
+      
+      <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L114" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">issue(<a href="#t:t/0">t</a>, <a href="#t:repo/0">repo</a>, <a href="#t:issue_number/0">issue_number</a>, <a href="#t:request_opts/0">request_opts</a>) ::
+  {:ok, <a href="Octokit.Issue.html#t:t/0">Octokit.Issue.t</a>} |
+  {:error, any}</code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Gets information on a single issue.</p>
+
+  </section>
+</div>
+<div class="detail" id="last_response/1">
+  <div class="detail-header">
+    <a href="#last_response/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">last_response(client)</span>
+      
+      <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L123" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">last_response(<a href="#t:t/0">t</a>) :: %HTTPoison.Response{body: term, headers: term, status_code: term}</code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Gets the last response object received from an API call.</p>
+
+  </section>
+</div>
+<div class="detail" id="list_issues/3">
+  <div class="detail-header">
+    <a href="#list_issues/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">list_issues(client, repo, opts \\ [])</span>
+      
+      <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L129" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">list_issues(<a href="#t:t/0">t</a>, <a href="#t:repo/0">repo</a>, <a href="#t:request_opts/0">request_opts</a>) ::
+  {:ok, [<a href="Octokit.Issue.html#t:t/0">Octokit.Issue.t</a>]} |
+  {:error, any}</code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Gets information on all of the issues in a repo.</p>
+
+  </section>
+</div>
+<div class="detail" id="new/1">
+  <div class="detail-header">
+    <a href="#new/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">new(credentials \\ %{})</span>
+      
+      <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L77" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">new(<a href="#t:creds/0">creds</a>) :: <a href="#t:t/0">t</a></code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Creates a new GitHub API client using the supplied credentials.</p>
+<h2>Examples</h2>
+<p>Creating an unauthenticated client:</p>
+<pre><code class="iex elixir">iex&gt; client = Octokit.Client.new
+iex&gt; is_pid(client)
+true</code></pre>
+<p>Creating a client with an application’s client ID and secret:</p>
+<pre><code class="iex elixir">iex&gt; client = Octokit.Client.new(id: &quot;client_id&quot;, secret: &quot;client_secret&quot;)
+iex&gt; is_pid(client)
+true</code></pre>
+<p>Creating a client with a user’s Personal Access token:</p>
+<pre><code class="iex elixir">iex&gt; client = Octokit.Client.new(token: &quot;access_token&quot;)
+iex&gt; is_pid(client)
+true</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="rate_limit/1">
+  <div class="detail-header">
+    <a href="#rate_limit/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">rate_limit(client)</span>
+      
+      <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L140" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">rate_limit(<a href="#t:t/0">t</a>) :: <a href="#t:rate_limit/0">rate_limit</a></code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Gets the rate limit information from the last response.</p>
+<p>If there is no last response available, it makes a call to the rate limit API.</p>
+
+  </section>
+</div>
+<div class="detail" id="rate_limit!/1">
+  <div class="detail-header">
+    <a href="#rate_limit!/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">rate_limit!(client)</span>
+      
+      <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L150" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">rate_limit!(<a href="#t:t/0">t</a>) :: <a href="#t:rate_limit/0">rate_limit</a></code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Gets the rate limit informaiton from the API.</p>
+
+  </section>
+</div>
+<div class="detail" id="rels/2">
+  <div class="detail-header">
+    <a href="#rels/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">rels(client, name)</span>
+      
+      <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L170" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">rels(<a href="#t:t/0">t</a>, <a href="#t:rel_name/0">rel_name</a>) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Gets the URL for the named relative link from the last response.</p>
+<p><code class="inline">rel_name</code> can be any of the following:</p>
+<ul>
+<li><code class="inline">:first</code> - URL to the first page of information
+</li>
+<li><code class="inline">:prev</code> - URL to the previous page of information
+</li>
+<li><code class="inline">:next</code> - URL to the next page of information
+</li>
+<li><code class="inline">:last</code> - URL to the last page of information
+</li>
+</ul>
+<p>If <code class="inline">:first</code> and <code class="inline">:prev</code> are not defined, then the last response was the first page of information.
+If <code class="inline">:next</code> and <code class="inline">:last</code> are not defined, then the last response was the last page of information.
+Obviously, if none of them are defined, the last response contained all information requested.</p>
+
+  </section>
+</div>
+<div class="detail" id="repository/3">
+  <div class="detail-header">
+    <a href="#repository/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">repository(client, repo, opts \\ [])</span>
+      
+      <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L181" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">repository(<a href="#t:t/0">t</a>, <a href="#t:repo/0">repo</a>, <a href="#t:request_opts/0">request_opts</a>) ::
+  {:ok, <a href="Octokit.Repository.html#t:t/0">Octokit.Repository.t</a>} |
+  {:error, any}</code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Gets information on a single repository.</p>
+
+  </section>
+</div>
+<div class="detail" id="user/3">
+  <div class="detail-header">
+    <a href="#user/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">user(client, user, opts \\ [])</span>
+      
+      <a href="https://github.com/lee-dohm/octokit.ex/blob/master/lib/octokit/client.ex#L192" class="view-source" rel="help" title="View Source">
+       <i class="icon-code"></i>
+     </a>
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">user(<a href="#t:t/0">t</a>, <a href="#t:user/0">user</a>, <a href="#t:request_opts/0">request_opts</a>) ::
+  {:ok, <a href="Octokit.User.html#t:t/0">Octokit.User.t</a>} |
+  {:error, any}</code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Gets information on a single user.</p>
+
+  </section>
+</div>
+
+        </section>
+      
+
+      
+
+      
+        <footer class="footer">
+      <p>
+        <span class="line">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.11.4),
+        </span>
+        <span class="line">
+          designed by
+          <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+      </p>
+      <button class="night-mode-toggle" />
+    </footer>
+  </div>
+</section>
+</div>
+  <script src="dist/app-6d2e071366.js"></script>
+  </body>
+</html>
+

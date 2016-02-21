@@ -1,0 +1,61 @@
+defmodule Octokit.Repository do
+  @moduledoc """
+  Represents a [GitHub repository record](https://developer.github.com/v3/repos/#get).
+  """
+
+  alias Octokit.Client
+  alias Octokit.User
+
+  @type repo :: String.t | t
+  @type t :: %__MODULE__{}
+  @type user :: String.t | User.t
+
+  @fields [
+            :id, :owner, :name, :full_name, :description, :private, :fork,
+            :homepage, :language, :forks_count, :stargazers_count,
+            :watchers_count, :size, :default_branch, :open_issues_count,
+            :has_issues, :has_wiki, :has_pages, :has_downloads, :pushed_at,
+            :created_at, :updated_at, :permissions, :subscribers_count,
+            :organization, :parent, :source
+          ]
+
+  defstruct @fields
+
+  @name_with_owner_pattern ~r{\A[\w.-]+/[\w.-]+\z}i
+
+  @doc """
+  Creates a new `Repository` structure with the bare minimum information.
+
+  You can call `update/2` to fill the structure with the latest information from
+  the GitHub database.
+  """
+  @spec new(user | nil, repo) :: t
+  def new(user \\ nil, repo)
+
+  def new(nil, full_name) when is_binary(full_name) do
+    if Regex.match?(@name_with_owner_pattern, full_name) do
+      [user, repo] = String.split(full_name, "/")
+
+      %__MODULE__{owner: user, name: repo, full_name: full_name}
+    end
+  end
+
+  def new(user, repo) do
+    %__MODULE__{owner: user, name: repo, full_name: "#{user}/#{repo}"}
+  end
+
+  @doc """
+  Updates with the latest information from the GitHub database.
+  """
+  @spec update(Client.t, repo) :: t
+  def update(client, repo) do
+    Client.repository(client, repo.full_name)
+  end
+
+  @doc """
+  Parses the JSON body of a GitHub API response to construct a Repository
+  structure.
+  """
+  @spec parse(String.t) :: t
+  def parse(body), do: Octokit.Parser.parse(body, @fields, %__MODULE__{})
+end

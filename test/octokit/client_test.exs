@@ -38,14 +38,15 @@ defmodule Octokit.Client.Test do
     assert_raise Client.InvalidCredentialsError, fn -> Client.new(foo: "bar") end
   end
 
-  test "executing an API call sets the last_response" do
-    client = Client.new
-    Client.user(client, "lee-dohm")
+  test "executing an API call sets the last_response", %{client: client} do
+    with_mock HTTPoison, mock_get("user_lee_dohm") do
+      Client.user(client, "lee-dohm")
 
-    last_response = Client.last_response(client)
-    assert !is_nil(last_response)
-    assert is_map(last_response)
-    assert last_response.__struct__ == HTTPoison.Response
+      last_response = Client.last_response(client)
+      assert !is_nil(last_response)
+      assert is_map(last_response)
+      assert last_response.__struct__ == HTTPoison.Response
+    end
   end
 
   test "executing a long API call sets the appropriate rels", %{client: client, date: date} do

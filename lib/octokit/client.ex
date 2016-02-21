@@ -5,6 +5,11 @@ defmodule Octokit.Client do
   This client does minimal caching, only retaining the very last response from any call to the API.
   It also doesn't do anything to ensure that you stay under your respective rate limit, though it
   does make the rate limit information available.
+
+  ## Security Warning
+
+  This client does not store the credentials it is supplied in a secure manner. Any process that
+  has access to the client `pid` can retrieve the credentials in plaintext.
   """
 
   alias Octokit.Client

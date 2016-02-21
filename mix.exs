@@ -66,7 +66,7 @@ defmodule Octokit.Mixfile do
 
   defp docs do
     [
-      extras: ["README.md", "LICENSE.md", "CODE_OF_CONDUCT.md"]
+      extras: ["CODE_OF_CONDUCT.md", "LICENSE.md": [title: "License"], "README.md": [title: "README"]]
     ]
   end
 

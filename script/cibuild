@@ -19,3 +19,6 @@ date "+%H:%M:%S"
 
 # run tests.
 script/test
+
+echo "Tests complete"
+date "+%H:%M:%S"

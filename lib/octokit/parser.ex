@@ -1,21 +1,33 @@
 defmodule Octokit.Parser do
   @moduledoc """
-  General parsing functions for GitHub API responses.
+  Functions to parse GitHub API responses into structs.
   """
 
+  @typedoc """
+  List of fields to copy from the parsed data.
+  """
   @type field_list :: nonempty_list(atom)
 
   @doc """
-  Parses the the respones either in JSON `String` or `Map` form, inserts any
-  matches for `fields` and returns in a record of `struct` type.
+  Parses the information, copying the named fields into a struct.
+
+  It can parse either JSON or a `Map`.
 
   ## Examples
+
+  Parsing a JSON object
 
       iex> foo = Octokit.Parser.parse("{\\"test\\": 1}", [:test], %Octokit.Repository{})
       iex> foo.test
       1
+
+  Parsing an equivalent `Map`
+
+      iex> foo = Octokit.Parser.parse(%{"test" => 1}, [:test], %Octokit.Repository{})
+      iex> foo.test
+      1
   """
-  @spec parse(String.t | Map.t, field_list, %{}) :: %{}
+  @spec parse(String.t | Map.t, field_list, struct) :: struct
   def parse(data, fields, struct)
 
   def parse(body, fields, struct) when is_binary(body) do

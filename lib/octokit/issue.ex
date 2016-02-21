@@ -1,6 +1,6 @@
 defmodule Octokit.Issue do
   @moduledoc """
-  Represents a [GitHub issue record](https://developer.github.com/v3/issues/#get-a-single-issue).
+  Represents an [Issue](https://developer.github.com/v3/issues/#get-a-single-issue).
   """
 
   @type t :: %__MODULE__{}
@@ -14,8 +14,8 @@ defmodule Octokit.Issue do
   defstruct @fields
 
   @doc """
-  Parses the JSON body of a GitHub API response to construct an Issue structure.
+  Parses the body of an API response into an `Octokit.Issue`.
   """
-  @spec parse(String.t) :: t
+  @spec parse(String.t | Map.t) :: t
   def parse(body), do: Octokit.Parser.parse(body, @fields, %__MODULE__{})
 end

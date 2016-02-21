@@ -1,5 +1,8 @@
 # Octokit
 
+[![Build Status](https://img.shields.io/travis/lee-dohm/octokit.ex.svg)](https://travis-ci.org/lee-dohm/octokit.ex)
+[![Package Version](https://img.shields.io/hexpm/v/octokit.svg)](https://atom.io/packages/octokit)
+
 An Elixir library for accessing the [GitHub API](https://developer.github.com/v3/).
 
 Like all versions of Octokit, this project does its best to conform to the community standards for the language it is written in and for. If there are places where this library does not conform, please [file an Issue](https://github.com/lee-dohm/octokit.ex/issues/new).

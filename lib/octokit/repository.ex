@@ -1,6 +1,6 @@
 defmodule Octokit.Repository do
   @moduledoc """
-  Represents a [GitHub repository record](https://developer.github.com/v3/repos/#get).
+  Represents a [GitHub repository](https://developer.github.com/v3/repos/#get).
   """
 
   alias Octokit.Client
@@ -24,10 +24,9 @@ defmodule Octokit.Repository do
   @name_with_owner_pattern ~r{\A[\w.-]+/[\w.-]+\z}i
 
   @doc """
-  Creates a new `Repository` structure with the bare minimum information.
+  Creates a new `Octokit.Repository` structure with the bare minimum information.
 
-  You can call `update/2` to fill the structure with the latest information from
-  the GitHub database.
+  Call `update/2` to fill the rest of the structure from the GitHub database.
   """
   @spec new(user | nil, repo) :: t
   def new(user \\ nil, repo)
@@ -53,8 +52,7 @@ defmodule Octokit.Repository do
   end
 
   @doc """
-  Parses the JSON body of a GitHub API response to construct a Repository
-  structure.
+  Parses the body of an API response into an `Octokit.Repository`.
   """
   @spec parse(String.t) :: t
   def parse(body), do: Octokit.Parser.parse(body, @fields, %__MODULE__{})

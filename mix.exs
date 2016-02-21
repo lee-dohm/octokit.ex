@@ -14,7 +14,9 @@ defmodule Octokit.Mixfile do
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps,
-      docs: docs
+      description: description,
+      docs: docs,
+      package: package
     ]
   end
 
@@ -56,9 +58,23 @@ defmodule Octokit.Mixfile do
     ]
   end
 
+  defp description do
+    """
+    An Elixir library for accessing the GitHub API.
+    """
+  end
+
   defp docs do
     [
       extras: ["README.md", "LICENSE.md", "CODE_OF_CONDUCT.md"]
+    ]
+  end
+
+  defp package do
+    [
+      maintainers: ["Lee Dohm"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/lee-dohm/octokit.ex"}
     ]
   end
 end

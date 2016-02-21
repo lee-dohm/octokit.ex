@@ -72,6 +72,7 @@ defmodule Octokit.Mixfile do
 
   defp package do
     [
+      files: ["lib", "mix.exs", "*.md"]
       maintainers: ["Lee Dohm"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/lee-dohm/octokit.ex"}

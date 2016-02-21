@@ -19,13 +19,13 @@ defmodule Octokit.Parser do
   def parse(data, fields, struct)
 
   def parse(body, fields, struct) when is_binary(body) do
-    data = Poison.Parser.parse!(body)
-
-    parse(data, fields, struct)
+    Poison.Parser.parse!(body)
+    |> parse(fields, struct)
   end
 
   def parse(data, fields, struct) when is_map(data) do
-    Enum.reduce(fields, struct,
-      fn(field, map) -> Map.put(map, field, data[Atom.to_string(field)]) end)
+    Enum.reduce(fields, struct, fn(field, map) ->
+      Map.put(map, field, data[Atom.to_string(field)])
+    end)
   end
 end

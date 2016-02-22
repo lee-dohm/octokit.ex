@@ -21,6 +21,19 @@ Other scripts that are available but not intended to be used directly by develop
 * `script/bootstrap` &mdash; Used to do a one-time install of all prerequisites for a development machine
 * `script/cibuild` &mdash; Used to run automated tests in the CI environment
 
+## Testing
+
+### Mock API Responses
+
+All mock API responses are stored in IEx `inspect` output for easy deserialization into native Elixir data structures. The format of the files in `test/fixtures` is:
+
+* Commented out `HTTPoison.get!` API call used to retrieve the response
+* Response object returned from the above API call
+
+### Test Helpers for Fixtures and Mocks
+
+In any `ExUnit.Case` using module, import `Test.Helpers`. See `test/test_helper.exs` for the current list of helpers and documentation.
+
 ## Copyright
 
 Copyright &copy; 2016 by [Lee Dohm](http://www.lee-dohm.com). See [LICENSE](https://raw.githubusercontent.com/lee-dohm/octokit.ex/master/LICENSE.md) for details.

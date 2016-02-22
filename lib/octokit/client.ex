@@ -72,7 +72,7 @@ defmodule Octokit.Client do
       iex> is_pid(client)
       true
 
-  Creating a client with a user's Personal Access token:
+  Creating a client with a user's token:
 
       iex> client = Octokit.Client.new(token: "access_token")
       iex> is_pid(client)

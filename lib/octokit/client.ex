@@ -128,17 +128,14 @@ defmodule Octokit.Client do
   def last_response(client), do: Storage.get(client, :last_response)
 
   @doc """
-  Gets information on all of the issues in a repo.
+  Gets information on all of the issues in a repo or org.
   """
   @spec list_issues(t, repo, request_opts) :: {:ok, [Issue.t]} | {:error, any}
   def list_issues(client, repo, opts \\ []) do
-    if Repository.repo_name?(repo) do
-      request(client, "repos/#{repo}/issues", opts)
-      |> parse_response(Issue)
-    else
-      request(client, "orgs/#{repo}/issues", opts)
-      |> parse_response(Issue)
-    end
+    query_type = issue_query_type(repo)
+
+    request(client, "#{query_type}/#{repo}/issues", opts)
+    |> parse_response(Issue)
   end
 
   @doc """
@@ -219,6 +216,13 @@ defmodule Octokit.Client do
     {_, value} = Enum.find(response.headers, fn({key, _}) -> key == name end)
 
     value
+  end
+
+  defp issue_query_type(name) do
+    cond do
+      Repository.repo_name?(name) -> "repos"
+      true                        -> "orgs"
+    end
   end
 
   defp parse_data(data, module) when is_list(data),

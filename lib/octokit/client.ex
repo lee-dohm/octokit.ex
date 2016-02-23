@@ -79,29 +79,11 @@ defmodule Octokit.Client do
       true
   """
   @spec new(creds) :: t
-  def new(credentials \\ %{})
+  def new(credentials \\ [])
 
-  def new(%{}) do
-    client = Storage.new
-    Storage.put(client, %{credentials: %{}, last_response: nil})
-
-    client
-  end
-
-  def new(id: id, secret: secret) do
-    client = Storage.new
-    Storage.put(client, %{credentials: %{client_id: id, client_secret: secret}, last_response: nil})
-
-    client
-  end
-
-  def new(token: token) do
-    client = Storage.new
-    Storage.put(client, %{credentials: %{access_token: token}, last_response: nil})
-
-    client
-  end
-
+  def new([]), do: create_store(%{})
+  def new(token: token), do: create_store(%{access_token: token})
+  def new(id: id, secret: secret), do: create_store(%{client_id: id, client_secret: secret})
   def new(creds), do: raise InvalidCredentialsError, creds
 
   @doc """
@@ -205,6 +187,13 @@ defmodule Octokit.Client do
 
   defp api_url(path), do: "https://api.github.com/#{path}"
   defp api_url(path, params), do: api_url(path) <> "?#{URI.encode_query(params)}"
+
+  defp create_store(creds) do
+    client = Storage.new
+    Storage.put(client, %{credentials: creds, last_response: nil})
+
+    client
+  end
 
   defp get_header(response, name, module) do
     value = get_header(response, name)

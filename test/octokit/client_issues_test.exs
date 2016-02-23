@@ -9,37 +9,42 @@ defmodule Octokit.Client.Issues.Test do
 
   setup do
     {:ok, client: Client.new(id: "client_id", secret: "client_secret"),
+          creds: %{client_id: "client_id", client_secret: "client_secret"},
           date: "2016-02-18T00:00:00Z"}
   end
 
-  test "retrieve a valid issue", %{client: client} do
+  test "retrieve a valid issue", %{client: client, creds: creds} do
     with_mock HTTPoison, mock_get("issue_response_valid") do
       {:ok, issue} = Client.issue(client, "atom/atom", 1234)
 
+      assert called HTTPoison.get(api_url("repos/atom/atom/issues/1234", creds))
       assert issue.number == 1234
       assert issue.state == "closed"
     end
   end
 
-  test "attempt to retrieve an invalid issue", %{client: client} do
+  test "attempt to retrieve an invalid issue", %{client: client, creds: creds} do
     with_mock HTTPoison, mock_get("issue_response_invalid") do
       assert {:error, _} = Client.issue(client, "foo/bar", 1234)
+      assert called HTTPoison.get(api_url("repos/foo/bar/issues/1234", creds))
     end
   end
 
-  test "retrieve a list of issues for a given repository", %{client: client} do
+  test "retrieve a list of issues for a given repository", %{client: client, creds: creds} do
     with_mock HTTPoison, mock_get("issues_list_response_valid") do
       {:ok, issues_list} = Client.list_issues(client, "lee-dohm/tabs-to-spaces")
 
+      assert called HTTPoison.get(api_url("repos/lee-dohm/tabs-to-spaces/issues", creds))
       assert Enum.count(issues_list) == 6
       assert Enum.all?(issues_list, fn(issue) -> is_map(issue) end)
       assert Enum.all?(issues_list, fn(issue) -> issue.__struct__ == Octokit.Issue end)
     end
   end
 
-  test "attempt to retrieve issues from a nonexistent repo", %{client: client} do
+  test "attempt to retrieve issues from a nonexistent repo", %{client: client, creds: creds} do
     with_mock HTTPoison, mock_get("issues_list_response_invalid") do
       assert {:error, _} = Client.list_issues(client, "foo/bar")
+      assert called HTTPoison.get(api_url("repos/foo/bar/issues", creds))
     end
   end
 

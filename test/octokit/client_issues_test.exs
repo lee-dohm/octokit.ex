@@ -49,6 +49,11 @@ defmodule Octokit.Client.Issues.Test do
 
       {:ok, issues_list} = Client.list_issues(client, "atom/atom", since: date)
 
+      assert called HTTPoison.get(api_url("repos/atom/atom/issues",
+                                          client_id: "client_id",
+                                          client_secret: "client_secret",
+                                          since: date))
+
       assert Enum.count(issues_list) == 30
       assert Enum.all?(issues_list, fn(issue) -> is_map(issue) end)
       assert Enum.all?(issues_list, fn(issue) -> issue.__struct__ == Octokit.Issue end)
@@ -57,6 +62,17 @@ defmodule Octokit.Client.Issues.Test do
         {:ok, updated_date} = Timex.DateFormat.parse(issue.updated_at, "{ISOz}")
         Timex.Date.compare(base_date, updated_date) <= 0
       end)
+    end
+  end
+
+  test "retrieve a list of issues for an org", %{client: client} do
+    with_mock HTTPoison, mock_get("issues_list_response_valid") do
+      {:ok, issues_list} = Client.list_issues(client, "lee-dohm")
+
+      assert called HTTPoison.get(api_url("orgs/lee-dohm/issues"))
+      assert Enum.count(issues_list) == 6
+      assert Enum.all?(issues_list, fn(issue) -> is_map(issue) end)
+      assert Enum.all?(issues_list, fn(issue) -> issue.__struct__ == Octokit.Issue end)
     end
   end
 end

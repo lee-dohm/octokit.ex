@@ -3,6 +3,10 @@ defmodule Test.Helpers do
   Test case helper functions.
   """
 
+  def api_url, do: "https://api.github.com"
+  def api_url(path), do: Path.join(api_url, path)
+  def api_url(path, params), do: api_url(path) <> "?" <> URI.encode_query(params)
+
   @doc """
   Gets the path to the test fixtures directory.
   """

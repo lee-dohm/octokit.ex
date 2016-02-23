@@ -201,8 +201,8 @@ defmodule Octokit.Client do
     |> parse_response(User)
   end
 
-  defp api_url(%{}, path), do: "https://api.github.com/#{path}"
-  defp api_url(params, path), do: api_url(%{}, path) <> "#{URI.encode_query(params)}"
+  defp api_url(path), do: "https://api.github.com/#{path}"
+  defp api_url(path, params), do: api_url(path) <> "?#{URI.encode_query(params)}"
 
   defp get_header(response, name, module) do
     value = get_header(response, name)
@@ -250,12 +250,15 @@ defmodule Octokit.Client do
   end
 
   defp request(client, path, opts) do
-    opts
-    |> Enum.into(%{})
-    |> Map.merge(credentials(client))
-    |> api_url(path)
+    params = opts
+             |> Enum.into(%{})
+             |> Map.merge(credentials(client))
+
+    api_url(path, params)
     |> request(client)
   end
+
+  defp request(url), do: HTTPoison.get(url)
 
   defp request(url, client) do
     {_, obj} = response = request(url)
@@ -264,6 +267,4 @@ defmodule Octokit.Client do
 
     response
   end
-
-  defp request(url), do: HTTPoison.get(url)
 end

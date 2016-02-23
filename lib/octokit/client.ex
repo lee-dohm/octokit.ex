@@ -132,8 +132,13 @@ defmodule Octokit.Client do
   """
   @spec list_issues(t, repo, request_opts) :: {:ok, [Issue.t]} | {:error, any}
   def list_issues(client, repo, opts \\ []) do
-    request(client, "repos/#{repo}/issues", opts)
-    |> parse_response(Issue)
+    if Repository.repo_name?(repo) do
+      request(client, "repos/#{repo}/issues", opts)
+      |> parse_response(Issue)
+    else
+      request(client, "orgs/#{repo}/issues", opts)
+      |> parse_response(Issue)
+    end
   end
 
   @doc """

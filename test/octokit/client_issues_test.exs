@@ -69,7 +69,10 @@ defmodule Octokit.Client.Issues.Test do
     with_mock HTTPoison, mock_get("issues_list_response_valid") do
       {:ok, issues_list} = Client.list_issues(client, "lee-dohm")
 
-      assert called HTTPoison.get(api_url("orgs/lee-dohm/issues"))
+      assert called HTTPoison.get(api_url("orgs/lee-dohm/issues",
+                                  client_id: "client_id",
+                                  client_secret: "client_secret"))
+
       assert Enum.count(issues_list) == 6
       assert Enum.all?(issues_list, fn(issue) -> is_map(issue) end)
       assert Enum.all?(issues_list, fn(issue) -> issue.__struct__ == Octokit.Issue end)

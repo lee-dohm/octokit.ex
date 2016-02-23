@@ -19,4 +19,12 @@ defmodule Octokit.Repository.Test do
     assert repo.name == "bar"
     assert repo.full_name == "foo/bar"
   end
+
+  test "detects foo/bar as a repo name" do
+    assert Repository.repo_name?("foo/bar")
+  end
+
+  test "rejects foo alone as a repo name" do
+    refute Repository.repo_name?("foo")
+  end
 end

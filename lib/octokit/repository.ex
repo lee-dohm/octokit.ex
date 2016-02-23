@@ -44,16 +44,18 @@ defmodule Octokit.Repository do
   end
 
   @doc """
+  Parses the body of an API response into an `Octokit.Repository`.
+  """
+  @spec parse(String.t) :: t
+  def parse(body), do: Octokit.Parser.parse(body, @fields, %__MODULE__{})
+
+  def repo_name?(text), do: Regex.match?(@name_with_owner_pattern, text)
+
+  @doc """
   Updates with the latest information from the GitHub database.
   """
   @spec update(Client.t, repo) :: t
   def update(client, repo) do
     Client.repository(client, repo.full_name)
   end
-
-  @doc """
-  Parses the body of an API response into an `Octokit.Repository`.
-  """
-  @spec parse(String.t) :: t
-  def parse(body), do: Octokit.Parser.parse(body, @fields, %__MODULE__{})
 end

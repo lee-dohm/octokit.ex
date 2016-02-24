@@ -43,6 +43,11 @@ defmodule Octokit.Client.Test do
       Client.user(client, "lee-dohm")
 
       last_response = Client.last_response(client)
+
+      assert called HTTPoison.get(api_url("users/lee-dohm",
+                                          client_id: "client_id",
+                                          client_secret: "client_secret"))
+
       assert !is_nil(last_response)
       assert is_map(last_response)
       assert last_response.__struct__ == HTTPoison.Response
@@ -53,6 +58,11 @@ defmodule Octokit.Client.Test do
     with_mock HTTPoison, mock_get("long_issues_list_valid") do
       Client.list_issues(client, "atom/atom", since: date)
 
+      assert called HTTPoison.get(api_url("repos/atom/atom/issues",
+                                          client_id: "client_id",
+                                          client_secret: "client_secret",
+                                          since: date))
+
       assert Client.rels(client, :next) == "https://api.github.com/repositories/3228505/issues?since=2016-02-18T00%3A00%3A00Z&page=2"
       assert Client.rels(client, :last) == "https://api.github.com/repositories/3228505/issues?since=2016-02-18T00%3A00%3A00Z&page=2"
     end
@@ -61,6 +71,10 @@ defmodule Octokit.Client.Test do
   test "executing an API call sets the rate limit information", %{client: client} do
     with_mock HTTPoison, mock_get("issue_response_valid") do
       Client.issue(client, "atom/atom", 1234)
+
+      assert called HTTPoison.get(api_url("repos/atom/atom/issues/1234",
+                                          client_id: "client_id",
+                                          client_secret: "client_secret"))
 
       assert Client.rate_limit(client).limit == 60
       assert Client.rate_limit(client).remaining == 58

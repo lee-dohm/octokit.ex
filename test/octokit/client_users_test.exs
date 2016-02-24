@@ -11,6 +11,10 @@ defmodule Octokit.Client.Users.Test do
 
       {:ok, user} = Client.user(client, "lee-dohm")
 
+      assert called HTTPoison.get(api_url("users/lee-dohm",
+                                          client_id: "client_id",
+                                          client_secret: "client_secret"))
+
       assert user.login == "lee-dohm"
     end
   end

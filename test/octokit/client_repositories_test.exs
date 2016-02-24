@@ -11,6 +11,7 @@ defmodule Octokit.Client.Repositories.Test do
 
       {:ok, repo} = Client.repository(client, "atom/atom")
 
+      assert called HTTPoison.get(api_url("repos/atom/atom", client_id: "client_id", client_secret: "client_secret"))
       assert repo.full_name == "atom/atom"
     end
   end

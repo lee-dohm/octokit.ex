@@ -83,4 +83,21 @@ defmodule Octokit.Client.Issues.Test do
       assert Enum.all?(issues_list, fn(issue) -> issue.__struct__ == Octokit.Issue end)
     end
   end
+
+  test "get the next page of issues for an org", %{client: client} do
+    with_mock HTTPoison, [
+      get: fn("https://api.github.com/orgs/lee-dohm/issues?page=2&client_id=client_id&client_secret=client_secret") -> {:ok, fixture("long_issues_list_valid")} end,
+      get: fn(_) -> {:ok, fixture("long_issues_list_valid")} end
+    ] do
+      {:ok, _} = Client.list_issues(client, "lee-dohm")
+      url = Client.rels(client, :next)
+      {:ok, issues} = Client.list_issues(client, :next)
+
+      assert called HTTPoison.get(url <> "&" <> URI.encode_query(client_id: "client_id", client_secret: "client_secret"))
+
+      assert Enum.count(issues) == 30
+      assert Enum.all?(issues, fn(issue) -> is_map(issue) end)
+      assert Enum.all?(issues, fn(issue) -> issue.__struct__ == Octokit.Issue end)
+    end
+  end
 end

@@ -26,6 +26,7 @@ defmodule Octokit.Client do
   @type rel_name :: :first | :prev | :next | :last
   @type repo :: pos_integer | String.t | Repository.t
   @type request_opts :: Keyword.t
+  @type target :: User.t | Repository.t | String.t | atom
   @type user :: String.t | User.t
   @type t :: pid
 
@@ -111,12 +112,24 @@ defmodule Octokit.Client do
 
   @doc """
   Gets information on all of the issues in a repo or org.
-  """
-  @spec list_issues(t, repo, request_opts) :: {:ok, [Issue.t]} | {:error, any}
-  def list_issues(client, repo, opts \\ []) do
-    query_type = issue_query_type(repo)
 
-    request(client, "#{query_type}/#{repo}/issues", opts)
+  Pagination can be performed by passing the name of the relative link as the target, for example `:next`
+  to retrieve the next page of results.
+  """
+  @spec list_issues(t, target, request_opts) :: {:ok, [Issue.t]} | {:error, any}
+  def list_issues(client, target, opts \\ [])
+
+  def list_issues(client, rel, []) when is_atom(rel) do
+    url = rels(client, rel)
+
+    request(url <> "&" <> URI.encode_query(credentials(client)))
+    |> parse_response(Issue)
+  end
+
+  def list_issues(client, user_or_repo, opts) when is_binary(user_or_repo) do
+    query_type = issue_query_type(user_or_repo)
+
+    request(client, "#{query_type}/#{user_or_repo}/issues", opts)
     |> parse_response(Issue)
   end
 

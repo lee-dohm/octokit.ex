@@ -75,6 +75,19 @@ defmodule Octokit.Client.Test do
     end
   end
 
+  test "asking for a rel that doesn't exist returns nil", %{client: client, date: date} do
+    with_mock HTTPoison, mock_get("long_issues_list_valid") do
+      Client.list_issues(client, "atom/atom", since: date)
+
+      assert called HTTPoison.get(api_url("repos/atom/atom/issues",
+                                          client_id: "client_id",
+                                          client_secret: "client_secret",
+                                          since: date))
+
+      assert is_nil(Client.rels(client, :prev))
+    end
+  end
+
   test "executing an API call sets the rate limit information", %{client: client} do
     with_mock HTTPoison, mock_get("issue_response_valid") do
       Client.issue(client, "atom/atom", 1234)

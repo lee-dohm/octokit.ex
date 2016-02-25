@@ -18,6 +18,13 @@ defmodule Octokit.Client.Test do
     assert is_nil(Client.last_response(client))
   end
 
+  test "treat an empty list as an unauthenticated client" do
+    client = Client.new([])
+
+    assert is_pid(client)
+    assert is_nil(Client.last_response(client))
+  end
+
   test "creating a new client using id and secret" do
     client = Client.new(id: "client_id", secret: "client_secret")
     creds = Client.credentials(client)

@@ -7,7 +7,25 @@ An Elixir library for accessing the [GitHub API](https://developer.github.com/v3
 
 Like all versions of Octokit, this project does its best to conform to the community standards for the language it is written in and for. If there are places where this library does not conform, please [file an Issue](https://github.com/lee-dohm/octokit.ex/issues/new).
 
-## Common Tasks
+## Installation
+
+First, add Octokit to your `mix.exs` dependencies:
+
+```elixir
+def deps do
+  [ {:octokit, "~> 0.1.0"} ]
+end
+```
+
+and run `mix deps.get`. Now, list the `:octokit` application as an application dependency:
+
+```elixir
+def application do
+  [applications: [:octokit]]
+end
+```
+
+## Development
 
 This project follows the [GitHub "scripts to rule them all" pattern](http://githubengineering.com/scripts-to-rule-them-all/). The contents of the `scripts` directory are scripts that cover all common tasks:
 

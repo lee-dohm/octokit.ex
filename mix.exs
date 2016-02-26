@@ -50,7 +50,7 @@ defmodule Octokit.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 0.8.0"},
-      {:poison, "~> 2.0"},
+      {:poison, "~> 1.5 or ~> 2.0"},
       {:timex, "~> 1.0.1"},
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev},

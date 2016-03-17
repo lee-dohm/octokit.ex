@@ -8,7 +8,7 @@ defmodule Octokit.Issue do
   @fields [
             :number, :state, :title, :body, :user, :labels, :assignee,
             :milestone, :locked, :comments, :closed_at, :created_at,
-            :updated_at, :closed_by
+            :updated_at, :closed_by, :url, :pull_request
           ]
 
   defstruct @fields

@@ -122,7 +122,7 @@ defmodule Octokit.Client do
   def list_issues(client, rel, []) when is_atom(rel) do
     url = rels(client, rel)
 
-    request(url <> "&" <> URI.encode_query(credentials(client)))
+    request(url)
     |> parse_response(Issue)
   end
 

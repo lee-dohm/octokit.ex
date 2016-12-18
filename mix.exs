@@ -51,7 +51,7 @@ defmodule Octokit.Mixfile do
     [
       {:httpoison, "~> 0.10.0"},
       {:poison, "~> 1.5 or ~> 2.0"},
-      {:timex, "~> 2.0"},
+      {:timex, "~> 3.1"},
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev},
       {:mock, "~> 0.1.1", only: :test}

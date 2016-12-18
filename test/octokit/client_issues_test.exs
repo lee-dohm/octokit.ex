@@ -51,7 +51,7 @@ defmodule Octokit.Client.Issues.Test do
 
   test "retrieve a list of issues for a repo updated since a certain date", %{client: client, date: date} do
     with_mock HTTPoison, mock_get("long_issues_list_valid") do
-      {:ok, base_date} = TimexParser.parse(date, "{ISOz}")
+      {:ok, base_date} = TimexParser.parse(date, "{ISO:Extended:Z}")
 
       {:ok, issues_list} = Client.list_issues(client, "atom/atom", since: date)
 
@@ -65,8 +65,8 @@ defmodule Octokit.Client.Issues.Test do
       assert Enum.all?(issues_list, fn(issue) -> issue.__struct__ == Octokit.Issue end)
 
       assert Enum.all?(issues_list, fn(issue) ->
-        {:ok, updated_date} = TimexParser.parse(issue.updated_at, "{ISOz}")
-        Timex.Date.compare(base_date, updated_date) <= 0
+        {:ok, updated_date} = TimexParser.parse(issue.updated_at, "{ISO:Extended:Z}")
+        Timex.compare(base_date, updated_date) <= 0
       end)
     end
   end

@@ -10,7 +10,7 @@ defmodule Octokit.Mixfile do
       version: @version,
       source_url: "https://github.com/lee-dohm/octokit.ex",
       homepage_url: "https://github.com/lee-dohm/octokit.ex",
-      elixir: "~> 1.2",
+      elixir: "~> 1.3",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps,

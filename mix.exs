@@ -13,10 +13,10 @@ defmodule Octokit.Mixfile do
       elixir: "~> 1.3",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      deps: deps,
-      description: description,
-      docs: docs,
-      package: package
+      deps: deps(),
+      description: description(),
+      docs: docs(),
+      package: package()
     ]
   end
 
@@ -25,7 +25,7 @@ defmodule Octokit.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [
-      applications: app_list
+      applications: app_list()
     ]
   end
 

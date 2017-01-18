@@ -4,7 +4,7 @@ defmodule Test.Helpers do
   """
 
   def api_url, do: "https://api.github.com"
-  def api_url(path), do: Path.join(api_url, path)
+  def api_url(path), do: Path.join(api_url(), path)
   def api_url(path, params), do: api_url(path) <> "?" <> URI.encode_query(params)
 
   @doc """
@@ -15,7 +15,7 @@ defmodule Test.Helpers do
   @doc """
   Gets the path to the named test fixture.
   """
-  def fixture_path(name), do: Path.join(fixture_path, name <> ".exs")
+  def fixture_path(name), do: Path.join(fixture_path(), name <> ".exs")
 
   @doc """
   Gets the named test fixture.

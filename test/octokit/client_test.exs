@@ -41,6 +41,14 @@ defmodule Octokit.Client.Test do
     assert is_nil(Client.last_response(client))
   end
 
+  test "creating a new client using a login and password" do
+    client = Client.new(login: "username", password: "password")
+    creds = Client.credentials(client)
+
+    assert creds == %{login: "username", password: "password"}
+    assert is_nil(Client.last_response(client))
+  end
+
   test "creating a new client with invalid parameters" do
     assert_raise Client.InvalidCredentialsError, fn -> Client.new(foo: "bar") end
   end

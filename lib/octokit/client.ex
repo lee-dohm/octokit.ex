@@ -85,6 +85,7 @@ defmodule Octokit.Client do
   def new([]), do: create_store(%{})
   def new(token: token), do: create_store(%{access_token: token})
   def new(id: id, secret: secret), do: create_store(%{client_id: id, client_secret: secret})
+  def new(login: login, password: password), do: create_store(%{login: login, password: password})
   def new(creds), do: raise InvalidCredentialsError, creds
 
   @doc """

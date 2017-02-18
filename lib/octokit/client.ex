@@ -270,13 +270,9 @@ defmodule Octokit.Client do
     |> request(client)
   end
 
-  defp request(url) do
-    Logger.debug("GET #{url}")
-    HTTPoison.get(url)
-  end
-
   defp request(url, client) do
-    {_, obj} = response = request(url)
+    Logger.debug("GET #{url}")
+    {_, obj} = response = HTTPoison.get(url)
 
     Storage.put(client, %{last_response: obj})
 

@@ -123,7 +123,7 @@ defmodule Octokit.Client do
   def list_issues(client, rel, []) when is_atom(rel) do
     url = rels(client, rel)
 
-    request(client, url)
+    execute_request(client, url)
     |> parse_response(Issue)
   end
 
@@ -203,7 +203,6 @@ defmodule Octokit.Client do
   end
 
   defp api_url(path), do: "https://api.github.com/#{path}"
-  defp api_url(path, params), do: api_url(path) <> "?#{URI.encode_query(params)}"
 
   defp create_store(creds) do
     client = Storage.new
@@ -269,13 +268,13 @@ defmodule Octokit.Client do
              |> Enum.into(%{})
              |> Map.merge(credentials(client))
 
-    request(client, api_url(path, params))
+    execute_request(client, api_url(path), params)
   end
 
-  defp request(client, url) do
+  defp execute_request(client, url, params \\ %{}) do
     Logger.debug("GET #{url}")
     http_module = Storage.get(client, :http_module)
-    {_, obj} = response = apply(http_module, :get, [url])
+    {_, obj} = response = apply(http_module, :get, [url, [], [params: params]])
 
     Storage.put(client, %{last_response: obj})
 

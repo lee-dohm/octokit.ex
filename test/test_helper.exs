@@ -37,7 +37,7 @@ defmodule Test.Helpers do
 
   defmacro with_http_mock(method, fixture_name, block) when is_binary(fixture_name) do
     quote do
-      with_mock HTTPoison, [{unquote(method), fn(_) -> {:ok, fixture(unquote(fixture_name))} end}] do
+      with_mock HTTPoison, [{unquote(method), fn(_, _, _) -> {:ok, fixture(unquote(fixture_name))} end}] do
         unquote(block)
       end
     end

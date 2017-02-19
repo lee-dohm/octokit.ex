@@ -5,13 +5,17 @@ defmodule Octokit.Client.Repositories.Test do
   import Mock
   import Test.Helpers
 
-  test "retrieve a repository with user/repo" do
+  setup do
+    {:ok, creds: %{client_id: "client_id", client_secret: "client_secret"}}
+  end
+
+  test "retrieve a repository with user/repo", %{creds: creds} do
     with_http_mock :get, "repository_response_atom" do
       client = Client.new(id: "client_id", secret: "client_secret")
 
       {:ok, repo} = Client.repository(client, "atom/atom")
 
-      assert called HTTPoison.get(api_url("repos/atom/atom", client_id: "client_id", client_secret: "client_secret"))
+      assert called HTTPoison.get(api_url("repos/atom/atom"), [], params: creds)
       assert repo.full_name == "atom/atom"
     end
   end

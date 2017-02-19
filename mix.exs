@@ -49,7 +49,7 @@ defmodule Octokit.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.10.0"},
+      {:httpoison, "~> 0.11.0"},
       {:poison, "~> 1.5 or ~> 2.0"},
       {:timex, "~> 3.1"},
       {:earmark, "~> 0.1", only: :dev},

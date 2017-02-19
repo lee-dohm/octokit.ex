@@ -188,6 +188,9 @@ defmodule Octokit.Client do
     |> parse_response(Repository)
   end
 
+  @doc false
+  def set_http_module(client, module), do: Storage.put(client, %{http_module: module})
+
   @doc """
   Gets information on a single user.
   """
@@ -204,7 +207,7 @@ defmodule Octokit.Client do
 
   defp create_store(creds) do
     client = Storage.new
-    Storage.put(client, %{credentials: creds, last_response: nil})
+    Storage.put(client, %{credentials: creds, last_response: nil, http_module: HTTPoison})
 
     client
   end
@@ -271,7 +274,8 @@ defmodule Octokit.Client do
 
   defp request(client, url) do
     Logger.debug("GET #{url}")
-    {_, obj} = response = HTTPoison.get(url)
+    http_module = Storage.get(client, :http_module)
+    {_, obj} = response = apply(http_module, :get, [url])
 
     Storage.put(client, %{last_response: obj})
 

@@ -94,7 +94,7 @@ defmodule Octokit.Client.Issues.Test do
       url = Client.rels(client, :next)
       {:ok, issues} = Client.list_issues(client, :next)
 
-      assert called HTTPoison.get(url, [], params: %{})
+      assert called HTTPoison.get(url, [], [])
 
       assert Enum.count(issues) == 30
       assert Enum.all?(issues, fn(issue) -> is_map(issue) end)

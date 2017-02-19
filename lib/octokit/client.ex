@@ -265,12 +265,12 @@ defmodule Octokit.Client do
              |> Enum.into(%{})
              |> Map.merge(credentials(client))
 
-    execute_request(client, api_url(path), params)
+    execute_request(client, api_url(path), [], params: params)
   end
 
-  defp execute_request(client, url, params \\ %{}) do
+  defp execute_request(client, url, headers \\ [], options \\ []) do
     Logger.debug("GET #{url}")
-    {_, obj} = response = HTTPoison.get(url, [], params: params)
+    {_, obj} = response = HTTPoison.get(url, headers, options)
 
     Storage.put(client, %{last_response: obj})
 

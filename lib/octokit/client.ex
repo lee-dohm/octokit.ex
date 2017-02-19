@@ -123,7 +123,7 @@ defmodule Octokit.Client do
   def list_issues(client, rel, []) when is_atom(rel) do
     url = rels(client, rel)
 
-    request(url, client)
+    request(client, url)
     |> parse_response(Issue)
   end
 
@@ -266,11 +266,10 @@ defmodule Octokit.Client do
              |> Enum.into(%{})
              |> Map.merge(credentials(client))
 
-    api_url(path, params)
-    |> request(client)
+    request(client, api_url(path, params))
   end
 
-  defp request(url, client) do
+  defp request(client, url) do
     Logger.debug("GET #{url}")
     {_, obj} = response = HTTPoison.get(url)
 

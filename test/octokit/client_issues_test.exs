@@ -15,7 +15,7 @@ defmodule Octokit.Client.Issues.Test do
   end
 
   test "retrieve a valid issue", %{client: client, creds: creds} do
-    with_mock HTTPoison, mock_get("issue_response_valid") do
+    with_http_mock :get, "issue_response_valid" do
       {:ok, issue} = Client.issue(client, "atom/atom", 1234)
 
       assert called HTTPoison.get(api_url("repos/atom/atom/issues/1234", creds))
@@ -25,14 +25,14 @@ defmodule Octokit.Client.Issues.Test do
   end
 
   test "attempt to retrieve an invalid issue", %{client: client, creds: creds} do
-    with_mock HTTPoison, mock_get("issue_response_invalid") do
+    with_http_mock :get, "issue_response_invalid" do
       assert {:error, _} = Client.issue(client, "foo/bar", 1234)
       assert called HTTPoison.get(api_url("repos/foo/bar/issues/1234", creds))
     end
   end
 
   test "retrieve a list of issues for a given repository", %{client: client, creds: creds} do
-    with_mock HTTPoison, mock_get("issues_list_response_valid") do
+    with_http_mock :get, "issues_list_response_valid" do
       {:ok, issues_list} = Client.list_issues(client, "lee-dohm/tabs-to-spaces")
 
       assert called HTTPoison.get(api_url("repos/lee-dohm/tabs-to-spaces/issues", creds))
@@ -43,14 +43,14 @@ defmodule Octokit.Client.Issues.Test do
   end
 
   test "attempt to retrieve issues from a nonexistent repo", %{client: client, creds: creds} do
-    with_mock HTTPoison, mock_get("issues_list_response_invalid") do
+    with_http_mock :get, "issues_list_response_invalid" do
       assert {:error, _} = Client.list_issues(client, "foo/bar")
       assert called HTTPoison.get(api_url("repos/foo/bar/issues", creds))
     end
   end
 
   test "retrieve a list of issues for a repo updated since a certain date", %{client: client, date: date} do
-    with_mock HTTPoison, mock_get("long_issues_list_valid") do
+    with_http_mock :get, "long_issues_list_valid" do
       {:ok, base_date} = TimexParser.parse(date, "{ISO:Extended:Z}")
 
       {:ok, issues_list} = Client.list_issues(client, "atom/atom", since: date)
@@ -72,7 +72,7 @@ defmodule Octokit.Client.Issues.Test do
   end
 
   test "retrieve a list of issues for an org", %{client: client} do
-    with_mock HTTPoison, mock_get("issues_list_response_valid") do
+    with_http_mock :get, "issues_list_response_valid" do
       {:ok, issues_list} = Client.list_issues(client, "lee-dohm")
 
       assert called HTTPoison.get(api_url("orgs/lee-dohm/issues",
@@ -86,7 +86,7 @@ defmodule Octokit.Client.Issues.Test do
   end
 
   test "get the next page of issues for an org", %{client: client} do
-    with_mock HTTPoison, [
+    with_http_mock [
       get: fn("https://api.github.com/orgs/lee-dohm/issues?page=2&client_id=client_id&client_secret=client_secret") -> {:ok, fixture("long_issues_list_valid")} end,
       get: fn(_) -> {:ok, fixture("long_issues_list_valid")} end
     ] do

@@ -6,7 +6,7 @@ defmodule Octokit.Client.Repositories.Test do
   import Test.Helpers
 
   test "retrieve a repository with user/repo" do
-    with_mock HTTPoison, mock_get("repository_response_atom") do
+    with_http_mock :get, "repository_response_atom" do
       client = Client.new(id: "client_id", secret: "client_secret")
 
       {:ok, repo} = Client.repository(client, "atom/atom")
@@ -17,7 +17,7 @@ defmodule Octokit.Client.Repositories.Test do
   end
 
   test "retrieve a nonexistent repository" do
-    with_mock HTTPoison, mock_get("repository_response_not_found") do
+    with_http_mock :get, "repository_response_not_found" do
       client = Client.new(id: "client_id", secret: "client_secret")
 
       assert {:error, _} = Client.repository(client, "foo/bar")

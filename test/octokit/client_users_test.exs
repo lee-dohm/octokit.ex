@@ -6,7 +6,7 @@ defmodule Octokit.Client.Users.Test do
   import Test.Helpers
 
   test "retrieve a user by login" do
-    with_mock HTTPoison, mock_get("user_response_valid") do
+    with_http_mock :get, "user_response_valid" do
       client = Client.new(id: "client_id", secret: "client_secret")
 
       {:ok, user} = Client.user(client, "lee-dohm")
@@ -20,7 +20,7 @@ defmodule Octokit.Client.Users.Test do
   end
 
   test "retrieve a nonexistent user" do
-    with_mock HTTPoison, mock_get("user_response_invalid") do
+    with_http_mock :get, "user_response_invalid" do
       client = Client.new(id: "client_id", secret: "client_secret")
 
       assert {:error, _} = Client.user(client, "foo")

@@ -3,6 +3,7 @@ defmodule Octokit.Client.Test do
   doctest Octokit.Client
 
   alias Octokit.Client
+  alias Octokit.GitHub
   import Mock
   import Test.Helpers
 
@@ -55,12 +56,12 @@ defmodule Octokit.Client.Test do
   end
 
   test "executing an API call sets the last_response", %{client: client, creds: creds} do
-    with_http_mock :get, "user_response_valid" do
+    with_github_mock :get, "user_response_valid" do
       Client.user(client, "lee-dohm")
 
       last_response = Client.last_response(client)
 
-      assert called HTTPoison.get(api_url("users/lee-dohm"), [], params: creds)
+      assert called GitHub.get("/users/lee-dohm", [], params: creds)
       assert !is_nil(last_response)
       assert is_map(last_response)
       assert last_response.__struct__ == HTTPoison.Response
@@ -68,10 +69,10 @@ defmodule Octokit.Client.Test do
   end
 
   test "executing a long API call sets the appropriate rels", %{client: client, date: date} do
-    with_http_mock :get, "long_issues_list_valid" do
+    with_github_mock :get, "long_issues_list_valid" do
       Client.list_issues(client, "atom/atom", since: date)
 
-      assert called HTTPoison.get(api_url("repos/atom/atom/issues"), [], params: %{
+      assert called GitHub.get("/repos/atom/atom/issues", [], params: %{
         client_id: "client_id",
         client_secret: "client_secret",
         since: date
@@ -83,10 +84,10 @@ defmodule Octokit.Client.Test do
   end
 
   test "asking for a rel that doesn't exist returns nil", %{client: client, date: date} do
-    with_http_mock :get, "long_issues_list_valid" do
+    with_github_mock :get, "long_issues_list_valid" do
       Client.list_issues(client, "atom/atom", since: date)
 
-      assert called HTTPoison.get(api_url("repos/atom/atom/issues"), [], params: %{
+      assert called GitHub.get("/repos/atom/atom/issues", [], params: %{
         client_id: "client_id",
         client_secret: "client_secret",
         since: date
@@ -97,10 +98,10 @@ defmodule Octokit.Client.Test do
   end
 
   test "executing an API call sets the rate limit information", %{client: client, creds: creds} do
-    with_http_mock :get, "issue_response_valid" do
+    with_github_mock :get, "issue_response_valid" do
       Client.issue(client, "atom/atom", 1234)
 
-      assert called HTTPoison.get(api_url("repos/atom/atom/issues/1234"), [], params: creds)
+      assert called GitHub.get("/repos/atom/atom/issues/1234", [], params: creds)
       assert Client.rate_limit(client).limit == 60
       assert Client.rate_limit(client).remaining == 58
       assert Client.rate_limit(client).reset == 1455587834
@@ -108,7 +109,7 @@ defmodule Octokit.Client.Test do
   end
 
   test "gets the rate limit information if no API call has been made", %{client: client} do
-    with_http_mock :get, "rate_limit" do
+    with_github_mock :get, "rate_limit" do
       assert Client.rate_limit(client).limit == 5000
       assert Client.rate_limit(client).remaining == 5000
       assert Client.rate_limit(client).reset == 1456026238

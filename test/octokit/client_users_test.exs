@@ -2,6 +2,7 @@ defmodule Octokit.Client.Users.Test do
   use ExUnit.Case, async: false
 
   alias Octokit.Client
+  alias Octokit.GitHub
   import Mock
   import Test.Helpers
 
@@ -10,18 +11,18 @@ defmodule Octokit.Client.Users.Test do
   end
 
   test "retrieve a user by login", %{creds: creds} do
-    with_http_mock :get, "user_response_valid" do
+    with_github_mock :get, "user_response_valid" do
       client = Client.new(id: "client_id", secret: "client_secret")
 
       {:ok, user} = Client.user(client, "lee-dohm")
 
-      assert called HTTPoison.get(api_url("users/lee-dohm"), [], params: creds)
+      assert called GitHub.get("/users/lee-dohm", [], params: creds)
       assert user.login == "lee-dohm"
     end
   end
 
   test "retrieve a nonexistent user" do
-    with_http_mock :get, "user_response_invalid" do
+    with_github_mock :get, "user_response_invalid" do
       client = Client.new(id: "client_id", secret: "client_secret")
 
       assert {:error, _} = Client.user(client, "foo")

@@ -13,6 +13,7 @@ defmodule Octokit.Client do
   """
 
   alias Octokit.Client
+  alias Octokit.GitHub
   alias Octokit.Issue
   alias Octokit.Repository
   alias Octokit.Storage
@@ -101,7 +102,7 @@ defmodule Octokit.Client do
   """
   @spec issue(t, repo, issue_number, request_opts) :: {:ok, Issue.t} | {:error, any}
   def issue(client, repo, number, opts \\ []) do
-    request(client, "repos/#{repo}/issues/#{number}", opts)
+    request(client, "/repos/#{repo}/issues/#{number}", opts)
     |> parse_response(Issue)
   end
 
@@ -130,7 +131,7 @@ defmodule Octokit.Client do
   def list_issues(client, user_or_repo, opts) when is_binary(user_or_repo) do
     query_type = issue_query_type(user_or_repo)
 
-    request(client, "#{query_type}/#{user_or_repo}/issues", opts)
+    request(client, "/#{query_type}/#{user_or_repo}/issues", opts)
     |> parse_response(Issue)
   end
 
@@ -184,7 +185,7 @@ defmodule Octokit.Client do
   def repository(client, repo, opts \\ [])
 
   def repository(client, repo, opts) do
-    request(client, "repos/#{repo}", opts)
+    request(client, "/repos/#{repo}", opts)
     |> parse_response(Repository)
   end
 
@@ -195,7 +196,7 @@ defmodule Octokit.Client do
   def user(client, user, opts \\ [])
 
   def user(client, login, opts) when is_binary(login) do
-    request(client, "users/#{login}", opts)
+    request(client, "/users/#{login}", opts)
     |> parse_response(User)
   end
 
@@ -265,12 +266,11 @@ defmodule Octokit.Client do
              |> Enum.into(%{})
              |> Map.merge(credentials(client))
 
-    execute_request(client, api_url(path), [], params: params)
+    execute_request(client, path, [], params: params)
   end
 
-  defp execute_request(client, url, headers \\ [], options \\ []) do
-    Logger.debug("GET #{url}")
-    {_, obj} = response = HTTPoison.get(url, headers, options)
+  defp execute_request(client, path, headers \\ [], options \\ []) do
+    {_, obj} = response = GitHub.get(path, headers, options)
 
     Storage.put(client, %{last_response: obj})
 

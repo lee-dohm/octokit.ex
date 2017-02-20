@@ -5,10 +5,6 @@ defmodule Test.Helpers do
 
   import Mock
 
-  def api_url, do: "https://api.github.com"
-  def api_url(path), do: Path.join(api_url(), path)
-  def api_url(path, params), do: api_url(path) <> "?" <> URI.encode_query(params)
-
   @doc """
   Gets the path to the test fixtures directory.
   """
@@ -27,25 +23,17 @@ defmodule Test.Helpers do
     result
   end
 
-  # defmacro with_http_mock(fixture_name, block) do
-  #   quote do
-  #     with_mock HTTPoison, [get: fn(_) -> {:ok, fixture(unquote(fixture_name))} end] do
-  #       unquote(block)
-  #     end
-  #   end
-  # end
-
-  defmacro with_http_mock(method, fixture_name, block) when is_binary(fixture_name) do
+  defmacro with_github_mock(method, fixture_name, block) do
     quote do
-      with_mock HTTPoison, [{unquote(method), fn(_, _, _) -> {:ok, fixture(unquote(fixture_name))} end}] do
+      with_mock Octokit.GitHub, [{unquote(method), fn(_, _, _) -> {:ok, fixture(unquote(fixture_name))} end}] do
         unquote(block)
       end
     end
   end
 
-  defmacro with_http_mock(mock_list, block) when is_list(mock_list) do
+  defmacro with_github_mock(mock_list, block) do
     quote do
-      with_mock HTTPoison, unquote(mock_list) do
+      with_mock Octokit.GitHub, unquote(mock_list) do
         unquote(block)
       end
     end

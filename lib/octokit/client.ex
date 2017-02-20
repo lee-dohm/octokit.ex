@@ -79,6 +79,12 @@ defmodule Octokit.Client do
       iex> client = Octokit.Client.new(token: "access_token")
       iex> is_pid(client)
       true
+
+  Creating a client with a user's login and password:
+
+      iex> client = Octokit.Client.new(login: "login", password: "password")
+      iex> is_pid(client)
+      true
   """
   @spec new(creds) :: t
   def new(credentials \\ [])
@@ -199,8 +205,6 @@ defmodule Octokit.Client do
     request(client, "/users/#{login}", opts)
     |> parse_response(User)
   end
-
-  defp api_url(path), do: "https://api.github.com/#{path}"
 
   defp create_store(creds) do
     client = Storage.new

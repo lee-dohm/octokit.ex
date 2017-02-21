@@ -38,6 +38,30 @@ defmodule Test.Helpers do
       end
     end
   end
+
+  defmacro with_http_mock(method, fixture_name, block) do
+    quote do
+      with_mock HTTPoison, [{unquote(method), fn(_, _, _) -> {:ok, fixture(unquote(fixture_name))} end}] do
+        unquote(block)
+      end
+    end
+  end
+
+  defmacro with_http_mock(mock_list, block) do
+    quote do
+      with_mock HTTPoison, unquote(mock_list) do
+        unquote(block)
+      end
+    end
+  end
+
+  defmacro with_http_mock(block) do
+    quote do
+      with_mock HTTPoison, [get: fn(_, _, _) -> nil end] do
+        unquote(block)
+      end
+    end
+  end
 end
 
 ExUnit.start()

@@ -4,7 +4,7 @@ defmodule Octokit.GitHub do
   """
   def get(path, headers \\ [], options \\ []) do
     {headers, options} = maybe_handle_credentials(headers, options)
-    headers = insert_default_user_agent(headers)
+    headers = maybe_insert_user_agent(headers)
 
     HTTPoison.get("https://api.github.com" <> path, headers, options)
   end
@@ -33,12 +33,10 @@ defmodule Octokit.GitHub do
     {"Authorization", "Basic " <> Base.encode64(login <> ":" <> password)}
   end
 
-  defp insert_default_user_agent(headers) do
-    cond do
-      Enum.any?(headers, fn({name, _}) -> name == "User-Agent" end) ->
-        headers
-      true ->
-        [{"User-Agent", "lee-dohm/octokit.ex"} | headers]
+  defp maybe_insert_user_agent(headers) do
+    case Enum.any?(headers, fn({name, _}) -> name == "User-Agent" end) do
+      true -> headers
+      _ -> [{"User-Agent", "lee-dohm/octokit.ex"} | headers]
     end
   end
 end

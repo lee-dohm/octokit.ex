@@ -1,5 +1,6 @@
 defmodule Octokit.GitHub.Test do
   use ExUnit.Case, async: false
+  doctest Octokit.GitHub
 
   alias Octokit.GitHub
   import Mock

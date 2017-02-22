@@ -50,11 +50,18 @@ defmodule Octokit.GitHub.Test do
 
   test "adds application credentials to query parameters", %{default_header: default_header} do
     with_http_mock do
-      GitHub.get("/test", [], creds: %{client_id: "client_id", client_secret: "client_secret"}, params: %{foo: "bar"})
+      GitHub.get("/test",
+                 [],
+                 creds: %{client_id: "client_id", client_secret: "client_secret"},
+                 params: %{foo: "bar"})
 
       assert called HTTPoison.get("https://api.github.com/test",
                                   default_header,
-                                  params: %{client_id: "client_id", client_secret: "client_secret", foo: "bar"})
+                                  params: %{
+                                    client_id: "client_id",
+                                    client_secret: "client_secret",
+                                    foo: "bar"
+                                  })
     end
   end
 
@@ -75,7 +82,9 @@ defmodule Octokit.GitHub.Test do
     with_http_mock do
       GitHub.get("/test", [{"User-Agent", "testy test test"}], [])
 
-      assert called HTTPoison.get("https://api.github.com/test", [{"User-Agent", "testy test test"}], [])
+      assert called HTTPoison.get("https://api.github.com/test",
+                                  [{"User-Agent", "testy test test"}],
+                                  [])
     end
   end
 end

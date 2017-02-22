@@ -31,7 +31,8 @@ defmodule Octokit.Parser do
   def parse(data, fields, struct)
 
   def parse(body, fields, struct) when is_binary(body) do
-    Poison.Parser.parse!(body)
+    body
+    |> Poison.Parser.parse!()
     |> parse(fields, struct)
   end
 

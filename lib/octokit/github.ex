@@ -1,4 +1,8 @@
 defmodule Octokit.GitHub do
+  @moduledoc """
+  Wrapper around HTTPoison to handle low-level GitHub API interactions.
+  """
+
   @doc """
   Executes an HTTP GET operation against the GitHub API endpoint.
   """

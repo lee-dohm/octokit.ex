@@ -62,7 +62,7 @@ defmodule Octokit.Client.Test do
       last_response = Client.last_response(client)
 
       assert called GitHub.get("/users/lee-dohm", [], params: creds)
-      assert !is_nil(last_response)
+      refute is_nil(last_response)
       assert is_map(last_response)
       assert last_response.__struct__ == HTTPoison.Response
     end
@@ -78,8 +78,10 @@ defmodule Octokit.Client.Test do
         since: date
       })
 
-      assert Client.rels(client, :next) == "https://api.github.com/repositories/3228505/issues?since=2016-02-18T00%3A00%3A00Z&page=2"
-      assert Client.rels(client, :last) == "https://api.github.com/repositories/3228505/issues?since=2016-02-18T00%3A00%3A00Z&page=2"
+      assert Client.rels(client, :next) ==
+        "https://api.github.com/repositories/3228505/issues?since=2016-02-18T00%3A00%3A00Z&page=2"
+      assert Client.rels(client, :last) ==
+        "https://api.github.com/repositories/3228505/issues?since=2016-02-18T00%3A00%3A00Z&page=2"
     end
   end
 

@@ -108,7 +108,8 @@ defmodule Octokit.Client do
   """
   @spec issue(t, repo, issue_number, request_opts) :: {:ok, Issue.t} | {:error, any}
   def issue(client, repo, number, opts \\ []) do
-    request(client, "/repos/#{repo}/issues/#{number}", opts)
+    client
+    |> request("/repos/#{repo}/issues/#{number}", opts)
     |> parse_response(Issue)
   end
 
@@ -121,8 +122,8 @@ defmodule Octokit.Client do
   @doc """
   Gets information on all of the issues in a repo or org.
 
-  Pagination can be performed by passing the name of the relative link as the target, for example `:next`
-  to retrieve the next page of results.
+  Pagination can be performed by passing the name of the relative link as the target, for example
+  `:next` to retrieve the next page of results.
   """
   @spec list_issues(t, target, request_opts) :: {:ok, [Issue.t]} | {:error, any}
   def list_issues(client, target, opts \\ [])
@@ -130,14 +131,16 @@ defmodule Octokit.Client do
   def list_issues(client, rel, []) when is_atom(rel) do
     url = rels(client, rel)
 
-    execute_request(client, url)
+    client
+    |> execute_request(url)
     |> parse_response(Issue)
   end
 
   def list_issues(client, user_or_repo, opts) when is_binary(user_or_repo) do
     query_type = issue_query_type(user_or_repo)
 
-    request(client, "/#{query_type}/#{user_or_repo}/issues", opts)
+    client
+    |> request("/#{query_type}/#{user_or_repo}/issues", opts)
     |> parse_response(Issue)
   end
 
@@ -178,7 +181,8 @@ defmodule Octokit.Client do
   """
   @spec rels(t, rel_name) :: String.t
   def rels(client, name) do
-    Client.last_response(client)
+    client
+    |> Client.last_response()
     |> get_header("Link")
     |> parse_rels
     |> Map.get(Atom.to_string(name))
@@ -191,7 +195,8 @@ defmodule Octokit.Client do
   def repository(client, repo, opts \\ [])
 
   def repository(client, repo, opts) do
-    request(client, "/repos/#{repo}", opts)
+    client
+    |> request("/repos/#{repo}", opts)
     |> parse_response(Repository)
   end
 
@@ -202,7 +207,8 @@ defmodule Octokit.Client do
   def user(client, user, opts \\ [])
 
   def user(client, login, opts) when is_binary(login) do
-    request(client, "/users/#{login}", opts)
+    client
+    |> request("/users/#{login}", opts)
     |> parse_response(User)
   end
 
@@ -253,7 +259,8 @@ defmodule Octokit.Client do
   end
 
   defp parse_rels(raw) do
-    String.split(raw, ~r/\s*,\s*/)
+    raw
+    |> String.split(~r(\s*,\s*))
     |> Enum.reduce(%{}, fn(item, result) -> Map.merge(result, parse_rel(item)) end)
   end
 

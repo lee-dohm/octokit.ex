@@ -50,7 +50,8 @@ defmodule Octokit.Client.Issues.Test do
     end
   end
 
-  test "retrieve a list of issues for a repo updated since a certain date", %{client: client, date: date} do
+  test "retrieve a list of issues for a repo updated since a certain date",
+       %{client: client, date: date} do
     with_github_mock :get, "long_issues_list_valid" do
       {:ok, base_date} = TimexParser.parse(date, "{ISO:Extended:Z}")
 
@@ -88,7 +89,11 @@ defmodule Octokit.Client.Issues.Test do
 
   test "get the next page of issues for an org", %{client: client} do
     with_github_mock [
-      get: fn("https://api.github.com/orgs/lee-dohm/issues", [], [params: %{page: 2, client_id: "client_id", client_secret: "client_secret"}]) -> {:ok, fixture("long_issues_list_valid")} end,
+      get: fn("https://api.github.com/orgs/lee-dohm/issues",
+              [],
+              [params: %{page: 2, client_id: "client_id", client_secret: "client_secret"}]) ->
+                {:ok, fixture("long_issues_list_valid")}
+              end,
       get: fn(_, _, _) -> {:ok, fixture("long_issues_list_valid")} end
     ] do
       {:ok, _} = Client.list_issues(client, "lee-dohm")

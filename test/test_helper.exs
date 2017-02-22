@@ -25,7 +25,8 @@ defmodule Test.Helpers do
 
   defmacro with_github_mock(method, fixture_name, block) do
     quote do
-      with_mock Octokit.GitHub, [{unquote(method), fn(_, _, _) -> {:ok, fixture(unquote(fixture_name))} end}] do
+      with_mock Octokit.GitHub,
+                [{unquote(method), fn(_, _, _) -> {:ok, fixture(unquote(fixture_name))} end}] do
         unquote(block)
       end
     end
@@ -41,7 +42,8 @@ defmodule Test.Helpers do
 
   defmacro with_http_mock(method, fixture_name, block) do
     quote do
-      with_mock HTTPoison, [{unquote(method), fn(_, _, _) -> {:ok, fixture(unquote(fixture_name))} end}] do
+      with_mock HTTPoison,
+                [{unquote(method), fn(_, _, _) -> {:ok, fixture(unquote(fixture_name))} end}] do
         unquote(block)
       end
     end

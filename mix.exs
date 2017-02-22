@@ -1,7 +1,7 @@
 defmodule Octokit.Mixfile do
   use Mix.Project
 
-  @version File.read!("VERSION.md") |> String.strip
+  @version String.strip(File.read!("VERSION.md"))
 
   def project do
     [
@@ -52,6 +52,7 @@ defmodule Octokit.Mixfile do
       {:httpoison, "~> 0.11.0"},
       {:poison, "~> 1.5 or ~> 2.0"},
       {:timex, "~> 3.1"},
+      {:dogma, "~> 0.1.14", only: :dev},
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev},
       {:mock, "~> 0.2.1", only: :test}
@@ -66,7 +67,11 @@ defmodule Octokit.Mixfile do
 
   defp docs do
     [
-      extras: ["CODE_OF_CONDUCT.md", "LICENSE.md": [title: "License"], "README.md": [title: "README"]]
+      extras: [
+        "CODE_OF_CONDUCT.md",
+        "LICENSE.md": [title: "License"],
+        "README.md": [title: "README"]
+      ]
     ]
   end
 

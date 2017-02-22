@@ -16,7 +16,8 @@ defmodule Octokit.Mixfile do
       deps: deps(),
       description: description(),
       docs: docs(),
-      package: package()
+      package: package(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -55,6 +56,7 @@ defmodule Octokit.Mixfile do
       {:dogma, "~> 0.1.14", only: :dev},
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev},
+      {:excoveralls, "~> 0.6", only: :test},
       {:mock, "~> 0.2.1", only: :test}
     ]
   end

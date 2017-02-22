@@ -26,6 +26,8 @@ else
   script/update
 fi
 
+script/style
+
 echo "===> Running tests..."
 
 if [ -n "$1" ]; then

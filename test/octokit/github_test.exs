@@ -18,6 +18,15 @@ defmodule Octokit.GitHub.Test do
     end
   end
 
+  test "does not prepend the GitHub API location if is already there",
+       %{default_header: default_header} do
+    with_http_mock do
+      GitHub.get("https://api.github.com/test")
+
+      assert called HTTPoison.get("https://api.github.com/test", default_header, [])
+    end
+  end
+
   test "uses token credentials as query parameters", %{default_header: default_header} do
     with_http_mock do
       GitHub.get("/test", [], creds: %{token: "access_token"})

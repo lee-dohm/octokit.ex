@@ -9,8 +9,9 @@ defmodule Octokit.GitHub do
   def get(path, headers \\ [], options \\ []) do
     {headers, options} = maybe_handle_credentials(headers, options)
     headers = maybe_insert_user_agent(headers)
+    url = maybe_prepend_api_host(path)
 
-    HTTPoison.get("https://api.github.com" <> path, headers, options)
+    HTTPoison.get(url, headers, options)
   end
 
   defp maybe_handle_credentials(headers, options) do
@@ -43,4 +44,7 @@ defmodule Octokit.GitHub do
       _ -> [{"User-Agent", "lee-dohm/octokit.ex"} | headers]
     end
   end
+
+  defp maybe_prepend_api_host(url = <<"https://api.github.com", _ :: binary>>), do: url
+  defp maybe_prepend_api_host(path), do: "https://api.github.com" <> path
 end

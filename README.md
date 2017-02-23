@@ -25,6 +25,12 @@ def application do
 end
 ```
 
+The user agent used by Octokit to connect to the GitHub API can be configured by adding the following to your `config.exs`:
+
+```elixir
+config :octokit, :user_agent, "YourUserAgent"
+```
+
 ## Development
 
 This project follows the [GitHub "scripts to rule them all" pattern](http://githubengineering.com/scripts-to-rule-them-all/). The contents of the `scripts` directory are scripts that cover all common tasks:

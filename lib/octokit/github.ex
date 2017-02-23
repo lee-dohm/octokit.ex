@@ -52,7 +52,7 @@ defmodule Octokit.GitHub do
   defp maybe_insert_user_agent(headers) do
     case Enum.any?(headers, fn({name, _}) -> name == "User-Agent" end) do
       true -> headers
-      _ -> [{"User-Agent", "lee-dohm/octokit.ex"} | headers]
+      _ -> [{"User-Agent", Application.get_env(:octokit, :user_agent)} | headers]
     end
   end
 

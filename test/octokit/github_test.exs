@@ -7,7 +7,13 @@ defmodule Octokit.GitHub.Test do
   import Test.Helpers
 
   setup do
-    {:ok, default_header: [{"User-Agent", "lee-dohm/octokit.ex"}]}
+    user_agent = Application.get_env(:octokit, :user_agent)
+
+    on_exit fn ->
+      Application.put_env(:octokit, :user_agent, user_agent)
+    end
+
+    {:ok, default_header: [{"User-Agent", user_agent}]}
   end
 
   test "prepends the GitHub API location", %{default_header: default_header} do
@@ -93,6 +99,19 @@ defmodule Octokit.GitHub.Test do
 
       assert called HTTPoison.get("https://api.github.com/test",
                                   [{"User-Agent", "testy test test"}],
+                                  [])
+    end
+  end
+
+  test "uses the user agent from the application configuration" do
+    with_http_mock do
+      Application.put_env(:octokit, :user_agent, "Testing!")
+      GitHub.get("/test")
+
+      assert called HTTPoison.get("https://api.github.com/test",
+                                  [
+                                    {"User-Agent", "Testing!"}
+                                  ],
                                   [])
     end
   end

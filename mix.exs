@@ -54,8 +54,7 @@ defmodule Octokit.Mixfile do
       {:poison, "~> 1.5 or ~> 2.0"},
       {:timex, "~> 3.1"},
       {:dogma, "~> 0.1.14", only: [:dev, :test]},
-      {:earmark, "~> 0.1", only: :dev},
-      {:ex_doc, "~> 0.11", only: :dev},
+      {:ex_doc, "~> 0.15.0", only: :dev},
       {:excoveralls, "~> 0.6", only: :test},
       {:mock, "~> 0.2.1", only: :test}
     ]
@@ -69,6 +68,9 @@ defmodule Octokit.Mixfile do
 
   defp docs do
     [
+      deps: [
+        httpoison: "https://hexdocs.pm/httpoison/"
+      ],
       extras: [
         "CODE_OF_CONDUCT.md",
         "LICENSE.md": [title: "License"],

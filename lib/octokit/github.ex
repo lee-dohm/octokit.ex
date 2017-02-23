@@ -1,20 +1,29 @@
 defmodule Octokit.GitHub do
   @moduledoc """
-  Wrapper around HTTPoison to handle low-level GitHub API interactions.
+  Wrapper around `HTTPoison` to handle low-level GitHub API interactions.
   """
 
   @doc """
   Executes an HTTP GET operation against the GitHub API endpoint.
+
+  The arguments are the same as for `HTTPoison.get/3` but `options` supports additional values:
+
+  * `:creds` Client credentials to use to authenticate against the GitHub API
   """
   def get(path, headers \\ [], options \\ []) do
-    {headers, options} = maybe_handle_credentials(headers, options)
+    {headers, options} = handle_credentials(headers, options)
+
     headers = maybe_insert_user_agent(headers)
     url = maybe_prepend_api_host(path)
 
     HTTPoison.get(url, headers, options)
   end
 
-  defp maybe_handle_credentials(headers, options) do
+  defp auth_header(login, password) do
+    {"Authorization", "Basic " <> Base.encode64(login <> ":" <> password)}
+  end
+
+  defp handle_credentials(headers, options) do
     handle_credentials(headers, Keyword.delete(options, :creds), Keyword.fetch(options, :creds))
   end
 
@@ -32,10 +41,6 @@ defmodule Octokit.GitHub do
 
   defp handle_credentials(headers, options, {:ok, %{login: login, password: password}}) do
     {[auth_header(login, password) | headers], options}
-  end
-
-  defp auth_header(login, password) do
-    {"Authorization", "Basic " <> Base.encode64(login <> ":" <> password)}
   end
 
   defp maybe_insert_user_agent(headers) do

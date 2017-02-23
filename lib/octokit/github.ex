@@ -3,13 +3,19 @@ defmodule Octokit.GitHub do
   Wrapper around `HTTPoison` to handle low-level GitHub API interactions.
   """
 
+  @type headers :: [{String.t, String.t}] | %{String.t => String.t}
+  @type options :: Keyword.t | Map.t
+
   @doc """
   Executes an HTTP GET operation against the GitHub API endpoint.
 
-  The arguments are the same as for `HTTPoison.get/3` but `options` supports additional values:
+  The arguments are the same as for `HTTPoison.get/3` except:
 
-  * `:creds` Client credentials to use to authenticate against the GitHub API
+  * `path` Accepts either a full URL or the API path
+  * `options` supports additional keys:
+      * `:creds` Client credentials to use to authenticate against the GitHub API
   """
+  @spec get(String.t, headers, options) :: {:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}
   def get(path, headers \\ [], options \\ []) do
     {headers, options} = handle_credentials(headers, options)
 

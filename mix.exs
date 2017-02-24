@@ -17,7 +17,8 @@ defmodule Octokit.Mixfile do
       description: description(),
       docs: docs(),
       package: package(),
-      test_coverage: [tool: ExCoveralls]
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [espec: :test],
     ]
   end
 
@@ -55,6 +56,7 @@ defmodule Octokit.Mixfile do
       {:timex, "~> 3.1"},
       {:dogma, "~> 0.1.14", only: [:dev, :test]},
       {:ex_doc, "~> 0.15.0", only: :dev},
+      {:espec, "~> 1.3.0", only: :test},
       {:excoveralls, "~> 0.6", only: :test},
       {:mock, "~> 0.2.1", only: :test}
     ]

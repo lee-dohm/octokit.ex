@@ -25,6 +25,17 @@ defmodule Octokit.GitHub do
     HTTPoison.get(url, headers, options)
   end
 
+  @doc """
+  Executes an HTTP POST operation against the GitHub API endpoint.
+
+  The arguments are the same as for `HTTPoison.post/4` except:
+
+  * `path` Accepts either a full URL or the API path
+  * `options` supports additional keys:
+      * `:creds` Client credentials to use to authenticate against the GitHub API
+  """
+  @spec post(String.t, String.t, headers, options) ::
+        {:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}
   def post(path, body, headers \\ [], options \\ []) do
     {headers, options} = handle_credentials(headers, options)
 
@@ -34,6 +45,17 @@ defmodule Octokit.GitHub do
     HTTPoison.post(url, body, headers, options)
   end
 
+  @doc """
+  Executes an HTTP PUT operation against the GitHub API endpoint.
+
+  The arguments are the same as for `HTTPoison.put/4` except:
+
+  * `path` Accepts either a full URL or the API path
+  * `options` supports additional keys:
+      * `:creds` Client credentials to use to authenticate against the GitHub API
+  """
+  @spec put(String.t, String.t, headers, options) ::
+        {:ok, HTTPoison.Response.t} | {:error, HTTPoison.Error.t}
   def put(path, body \\ "", headers \\ [], options \\ []) do
     {headers, options} = handle_credentials(headers, options)
 

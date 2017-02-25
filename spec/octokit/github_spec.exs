@@ -114,13 +114,23 @@ defmodule Octokit.GitHub.Spec do
     it "prepends the GitHub API location" do
       GitHub.post("/test", "")
 
-      expect HTTPoison |> to(accepted :post, ["https://api.github.com/test", "", default_headers(), []])
+      expect HTTPoison |> to(accepted :post, [
+        "https://api.github.com/test",
+        "",
+        default_headers(),
+        []
+      ])
     end
 
     it "doesn't prepend the API location if it is already there" do
       GitHub.post("https://api.github.com/test", "")
 
-      expect HTTPoison |> to(accepted :post, ["https://api.github.com/test", "", default_headers(), []])
+      expect HTTPoison |> to(accepted :post, [
+        "https://api.github.com/test",
+        "",
+        default_headers(),
+        []
+      ])
     end
 
     it "uses token credentials as query parameters" do
@@ -221,13 +231,23 @@ defmodule Octokit.GitHub.Spec do
     it "prepends the GitHub API location" do
       GitHub.put("/test", "")
 
-      expect HTTPoison |> to(accepted :put, ["https://api.github.com/test", "", default_headers(), []])
+      expect HTTPoison |> to(accepted :put, [
+        "https://api.github.com/test",
+        "",
+        default_headers(),
+        []
+      ])
     end
 
     it "doesn't prepend the API location if it is already there" do
       GitHub.put("https://api.github.com/test", "")
 
-      expect HTTPoison |> to(accepted :put, ["https://api.github.com/test", "", default_headers(), []])
+      expect HTTPoison |> to(accepted :put, [
+        "https://api.github.com/test",
+        "",
+        default_headers(),
+        []
+      ])
     end
 
     it "uses token credentials as query parameters" do

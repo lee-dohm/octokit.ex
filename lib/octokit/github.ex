@@ -34,6 +34,15 @@ defmodule Octokit.GitHub do
     HTTPoison.post(url, body, headers, options)
   end
 
+  def put(path, body \\ "", headers \\ [], options \\ []) do
+    {headers, options} = handle_credentials(headers, options)
+
+    headers = maybe_insert_user_agent(headers)
+    url = maybe_prepend_api_host(path)
+
+    HTTPoison.put(url, body, headers, options)
+  end
+
   defp auth_header(login, password) do
     {"Authorization", "Basic " <> Base.encode64(login <> ":" <> password)}
   end

@@ -151,7 +151,7 @@ defmodule Octokit.Client do
   """
   @spec rate_limit(t) :: rate_limit
   def rate_limit(client) do
-    if is_nil(Client.last_response(client)), do: request(client, "rate_limit", [])
+    if is_nil(Client.last_response(client)), do: request(client, "/rate_limit", [])
 
     parse_rate_limit(Client.last_response(client))
   end

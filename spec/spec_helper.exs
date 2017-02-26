@@ -20,6 +20,27 @@ defmodule Spec.Helpers do
     {result, _} = Code.eval_file(fixture_path(name))
     result
   end
+
+  defmacro accept_get_and_return_fixture(fixture_name) do
+    quote do
+      accept :get, fn(_, _, _) -> {:ok, fixture(unquote(fixture_name))} end
+    end
+  end
+
+  defmacro have_all_struct(type) do
+    quote do
+      have_all fn
+        %{__struct__: unquote(type)} -> true
+        _ -> false
+      end
+    end
+  end
+
+  defmacro with_args(path, headers, options) do
+    quote do
+      [unquote(path), unquote(headers), unquote(options)]
+    end
+  end
 end
 
 ESpec.configure fn(config) ->
